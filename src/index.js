@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
 import AddBar from './components/add_bar';
 import Note from './components/note';
-// import * as firebasedb from './firebasedb';
+import * as firebasedb from './firebasedb';
 import './style.scss';
 
 class App extends Component {
@@ -12,47 +12,26 @@ class App extends Component {
 
     this.state = {
       notes: Immutable.Map(),
-      counter: 5,
     };
   }
 
-  // componentDidMount() {
-  //   firebasedb.fetchNotes((notes) => {
-  //     this.setState({ notes: Immutable.Map(notes) });
-  //   });
-  // }
+  componentDidMount() {
+    firebasedb.fetchNotes((notes) => {
+      this.setState({ notes: Immutable.Map(notes) });
+    });
+  }
 
   makeNote(title) {
-    this.setState({
-      notes: this.state.notes.set(this.state.counter,
-        {
-          title,
-          content: '',
-          x: Math.floor(Math.random() * (600 - 50)) + 50,
-          y: Math.floor(Math.random() * (300 - 50)) + 50,
-        }),
-      counter: this.state.counter + 1,
-    });
+    firebasedb.createNote(title);
   }
 
   update(type, id, change) {
     if (type === 'delete') {
-      // firebasedb.removeNote(id);
-      this.setState({
-        notes: this.state.notes.delete(id),
-      });
+      firebasedb.removeNote(id);
     } else if (type === 'drag') {
-      this.setState({
-        notes: this.state.notes.update(id, (n) => {
-          return Object.assign({}, n, { x: change.x, y: change.y });
-        }),
-      });
+      firebasedb.dragNote(id, change);
     } else if (type === 'edit') {
-      this.setState({
-        notes: this.state.notes.update(id, (n) => {
-          return Object.assign({}, n, { title: change[0], content: change[1] });
-        }),
-      });
+      firebasedb.editNote(id, change);
     }
   }
 
