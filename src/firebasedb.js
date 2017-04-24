@@ -17,7 +17,6 @@ const database = firebase.database();
 const fetchNotes = (callback) => {
   database.ref('notes').on('value', (snapshot) => {
     callback(snapshot.val());
-    console.log(snapshot.val());
   });
 };
 
@@ -36,14 +35,14 @@ const removeNote = (id) => {
 };
 
 const dragNote = (id, pos) => {
-  database.ref('notes').child(id).set({
+  database.ref('notes').child(id).update({
     x: pos.x,
     y: pos.y,
   });
 };
 
 const editNote = (id, change) => {
-  database.ref('notes').child(id).set({
+  database.ref('notes').child(id).update({
     title: change[0],
     content: change[1],
   });

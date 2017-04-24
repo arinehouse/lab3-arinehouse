@@ -1,16 +1,47 @@
+html {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Roboto", sans-serif;
   background: darken(white, 0.2);
 }
 
+#new-note {
+  border-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  #addbar {
+    height: 50px;
+    width: 80vw;
+    font-size: 14pt;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid grey;
+  }
+
+  #submit {
+    border: none;
+    background-color: #4D53BD;
+    height: 55px;
+    width: 10vw;
+    border-radius: 5px;
+    font-size: 14pt;
+    color: white;
+  }
+}
+
 .container {
-  border: 1px solid black;
+  background: #ffe926;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 5px;
   min-width: 200px;
   min-height: 200px;
+  box-shadow: 5px 5px 10px #858585;
 }
 
 .header {
@@ -22,8 +53,8 @@ body {
   max-height: 20px;
   border-bottom: 1px solid black;
 
-  button {
-    border: none;
+  i {
+    padding: 5px;
   }
 }
 
@@ -36,4 +67,9 @@ body {
 .content {
   flex-grow: 4;
   padding: 10px;
+
+  textarea {
+    align-self: stretch;
+    height: 100px;
+  }
 }

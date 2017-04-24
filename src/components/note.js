@@ -45,9 +45,15 @@ class Note extends Component {
 
   editToggled(event) {
     if (!this.state.isEditing) {
-      this.setState({ isEditing: true });
-    } else {
-      this.setState({ isEditing: false });
+      this.setState({
+        isEditing: true,
+        newTitle: this.props.note.title,
+        newContent: this.props.note.content,
+      });
+    } else if (this.state.newTitle !== '') {
+      this.setState({
+        isEditing: false,
+      });
       this.setContent(event);
     }
   }
@@ -62,14 +68,14 @@ class Note extends Component {
         <div className="container" style={{ position: 'absolute' }}>
           <div className="header">
             <div className="header-left">
-              <input onChange={this.onTitleInputChange} placeholder={this.props.note.title} />
-              <button onClick={this.editToggled}><i className="fa fa-check" /></button>
-              <button onClick={this.cancelClicked}><i className="fa fa-close" /></button>
+              <input onChange={this.onTitleInputChange} value={this.state.newTitle} />
+              <i onClick={this.editToggled} className="fa fa-check" />
+              <i onClick={this.cancelClicked} className="fa fa-close" />
             </div>
-            <button className="dragButton"><i className="fa fa-arrows-alt" /></button>
+            <i className="dragButton fa fa-arrows-alt" />
           </div>
           <div className="content">
-            <textarea onChange={this.onInputChange} placeholder={this.props.note.content} />
+            <textarea onChange={this.onInputChange} value={this.state.newContent} />
           </div>
         </div>
       );
@@ -79,10 +85,10 @@ class Note extends Component {
           <div className="header">
             <div className="header-left">
               <p>{this.props.note.title}</p>
-              <button onClick={this.editToggled}><i className="fa fa-pencil" /></button>
-              <button onClick={this.deleteNote}><i className="fa fa-trash-o" /></button>
+              <i onClick={this.editToggled} className="fa fa-pencil" />
+              <i onClick={this.deleteNote} className="fa fa-trash-o" />
             </div>
-            <button className="dragButton"><i className="fa fa-arrows-alt" /></button>
+            <i className="drag fa fa-arrows-alt" />
           </div>
           <div className="content">
             <div className="noteBody" dangerouslySetInnerHTML={{ __html: marked(this.props.note.content || '') }} />
@@ -95,7 +101,7 @@ class Note extends Component {
   render() {
     return (
       <Draggable
-        handle=".dragButton"
+        handle=".drag"
         defaultPosition={{ x: 20, y: 20 }}
         position={{ x: this.props.note.x, y: this.props.note.y }}
         onStart={this.handleStart}

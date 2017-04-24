@@ -24,10 +24,10 @@ class AddBar extends Component {
 
   render() {
     return (
-      <div id="search-bar">
-        <form onSubmit={this.onAddbarSubmit}>
-          <input onChange={this.onInputChange} placeholder="Add a note!" />
-          <input type="submit" value="Add!" />
+      <div>
+        <form id="new-note" onSubmit={this.onAddbarSubmit}>
+          <input id="addbar" onChange={this.onInputChange} placeholder="Add a note!" />
+          <input id="submit" type="submit" value="Add!" />
         </form>
       </div>
     );
