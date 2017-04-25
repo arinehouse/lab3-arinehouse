@@ -14,19 +14,32 @@ firebase.initializeApp(config);
 // Get a reference to the database service
 const database = firebase.database();
 
+const fetchUsers = (callback) => {
+  database.ref('users').on('value', (snapshot) => {
+    callback(snapshot.val());
+  });
+};
+
 const fetchNotes = (callback) => {
   database.ref('notes').on('value', (snapshot) => {
     callback(snapshot.val());
   });
 };
 
+const createUser = (name) => {
+  const newUserKey = database.ref('users').push().key;
+  database.ref('users').child(newUserKey).set({
+    name,
+  });
+};
+
 const createNote = (title) => {
-  const newNoteKey = database.ref('notes').push().key;
-  database.ref('notes').child(newNoteKey).set({
+  database.ref('notes').push({
     title,
     content: '',
     x: Math.floor(Math.random() * (600 - 50)) + 50,
     y: Math.floor(Math.random() * (300 - 50)) + 50,
+    editor: '',
   });
 };
 
@@ -48,4 +61,10 @@ const editNote = (id, change) => {
   });
 };
 
-export { fetchNotes, createNote, removeNote, dragNote, editNote };
+const changeEditor = (id, editor) => {
+  database.ref('notes').child(id).update({
+    editor,
+  });
+};
+
+export { fetchUsers, fetchNotes, createUser, createNote, removeNote, dragNote, editNote, changeEditor };

@@ -12,6 +12,7 @@ class App extends Component {
 
     this.state = {
       notes: Immutable.Map(),
+      username: '',
     };
   }
 
@@ -19,10 +20,22 @@ class App extends Component {
     firebasedb.fetchNotes((notes) => {
       this.setState({ notes: Immutable.Map(notes) });
     });
+    firebasedb.fetchUsers((users) => {
+      this.setState({ users: Immutable.Map(users) });
+    });
+    fetch('http://www.whimsicalwordimal.com/api/name')
+    .then(resp => resp.json())
+    .then((data) => {
+      this.setState({ username: data.name });
+    });
   }
 
   makeNote(title) {
     firebasedb.createNote(title);
+  }
+
+  makeUser(name) {
+    sessionStorage.setItem('username', name);
   }
 
   update(type, id, change) {
@@ -32,6 +45,8 @@ class App extends Component {
       firebasedb.dragNote(id, change);
     } else if (type === 'edit') {
       firebasedb.editNote(id, change);
+    } else if (type === 'editor') {
+      firebasedb.changeEditor(id, change);
     }
   }
 
@@ -41,9 +56,12 @@ class App extends Component {
         <div>
           <AddBar onAddChange={text => this.makeNote(text)} />
         </div>
+        <div id="name-display">
+          Currently logged in as: {this.state.username}
+        </div>
         <div id="note-area">
           {this.state.notes.entrySeq().map(([id, note]) => {
-            return <Note id={id} note={note} update={(type, key, pos) => this.update(type, key, pos)} />;
+            return <Note id={id} note={note} update={(type, key, pos) => this.update(type, key, pos)} user={this.state.username} />;
           })}
         </div>
       </div>
