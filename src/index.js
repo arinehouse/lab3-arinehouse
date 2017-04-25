@@ -23,7 +23,7 @@ class App extends Component {
     firebasedb.fetchUsers((users) => {
       this.setState({ users: Immutable.Map(users) });
     });
-    fetch('//www.whimsicalwordimal.com/api/name')
+    fetch('https://animal-namer-api.herokuapp.com/api/name')
     .then(resp => resp.json())
     .then((data) => {
       this.setState({ username: data.name });
