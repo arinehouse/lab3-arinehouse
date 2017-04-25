@@ -27,7 +27,7 @@ class AddBar extends Component {
       <div>
         <form id="new-note" onSubmit={this.onAddbarSubmit}>
           <input id="addbar" onChange={this.onInputChange} placeholder="Add a note!" />
-          <input id="submit" type="submit" value="Add!" />
+          <input id="submit" type="submit" value="Add" />
         </form>
       </div>
     );

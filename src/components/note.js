@@ -40,7 +40,7 @@
    }
 
    handleDrag(event, ui) {
-     if (ui.y > 50 && ui.x > 50) {
+     if (ui.y > 0 && ui.x > 0) {
        this.props.update('drag', this.props.id, ui);
      }
    }
