@@ -98,7 +98,6 @@
          </div>
        );
      } else {
-       console.log(this.props.note.x, this.props.note.y);
        return (
          <div className="container" style={{ position: 'absolute' }}>
            <div className="header">

@@ -23,7 +23,7 @@ class App extends Component {
     firebasedb.fetchUsers((users) => {
       this.setState({ users: Immutable.Map(users) });
     });
-    fetch('http://www.whimsicalwordimal.com/api/name')
+    fetch('//www.whimsicalwordimal.com/api/name')
     .then(resp => resp.json())
     .then((data) => {
       this.setState({ username: data.name });
@@ -32,10 +32,6 @@ class App extends Component {
 
   makeNote(title) {
     firebasedb.createNote(title);
-  }
-
-  makeUser(name) {
-    sessionStorage.setItem('username', name);
   }
 
   update(type, id, change) {
