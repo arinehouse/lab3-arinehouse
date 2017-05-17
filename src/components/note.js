@@ -31,17 +31,17 @@
    }
 
    setContent(event) {
-     this.props.update('edit', this.props.id, [this.state.newTitle, this.state.newContent]);
+     this.props.update(this.props.id, { title: this.state.newTitle, content: this.state.newContent });
      this.setState({ isEditing: null });
    }
 
    deleteNote(event) {
-     this.props.update('delete', this.props.id, null);
+     this.props.delete(this.props.id);
    }
 
    handleDrag(event, ui) {
      if (ui.y > 0 && ui.x > 0) {
-       this.props.update('drag', this.props.id, ui);
+       this.props.update(this.props.id, { x: ui.x, y: ui.y });
      }
    }
 
@@ -52,16 +52,16 @@
          newTitle: this.props.note.title,
          newContent: this.props.note.content,
        });
-       this.props.update('editor', this.props.id, this.props.user);
+       this.props.update(this.props.id, { editor: this.props.user });
      } else if (this.state.newTitle !== '') {
        this.setContent(event);
-       this.props.update('editor', this.props.id, '');
+       this.props.update(this.props.id, { editor: '' });
      }
    }
 
    cancelClicked(event) {
      this.setState({ isEditing: false });
-     this.props.update('editor', this.props.id, '');
+     this.props.update(this.props.id, { editor: '' });
    }
 
    renderContent() {

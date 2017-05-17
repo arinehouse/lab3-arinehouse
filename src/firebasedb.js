@@ -43,28 +43,12 @@ const createNote = (title) => {
   });
 };
 
-const removeNote = (id) => {
+const deleteNote = (id) => {
   database.ref('notes').child(id).remove();
 };
 
-const dragNote = (id, pos) => {
-  database.ref('notes').child(id).update({
-    x: pos.x,
-    y: pos.y,
-  });
+const updateNote = (id, fields) => {
+  database.ref('notes').child(id).update(fields);
 };
 
-const editNote = (id, change) => {
-  database.ref('notes').child(id).update({
-    title: change[0],
-    content: change[1],
-  });
-};
-
-const changeEditor = (id, editor) => {
-  database.ref('notes').child(id).update({
-    editor,
-  });
-};
-
-export { fetchUsers, fetchNotes, createUser, createNote, removeNote, dragNote, editNote, changeEditor };
+export { fetchUsers, fetchNotes, createUser, createNote, deleteNote, updateNote };

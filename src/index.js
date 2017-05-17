@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Immutable from 'immutable';
+import io from 'socket.io-client';
 import AddBar from './components/add_bar';
 import Note from './components/note';
-import * as firebasedb from './firebasedb';
+// import * as firebasedb from './firebasedb';
 import './style.scss';
+
+// const socketserver = 'http://localhost:9090';
+const socketserver = 'https://react-notes-backend.herokuapp.com/';
 
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.socket = io(socketserver);
+    this.socket.on('connect', () => { console.log('socket.io connected'); });
+    this.socket.on('disconnect', () => { console.log('socket.io disconnected'); });
+    this.socket.on('reconnect', () => { console.log('socket.io reconnected'); });
+    this.socket.on('error', (error) => { console.log(error); });
 
     this.state = {
       notes: Immutable.Map(),
@@ -17,10 +27,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    firebasedb.fetchNotes((notes) => {
+    // firebasedb.fetchNotes((notes) => {
+    this.socket.on('notes', (notes) => {
       this.setState({ notes: Immutable.Map(notes) });
     });
-    firebasedb.fetchUsers((users) => {
+    // firebasedb.fetchUsers((users) => {
+    this.socket.on('users', (users) => {
       this.setState({ users: Immutable.Map(users) });
     });
     fetch('https://animal-namer-api.herokuapp.com/api/name')
@@ -31,19 +43,18 @@ class App extends Component {
   }
 
   makeNote(title) {
-    firebasedb.createNote(title);
+    // firebasedb.createNote(title);
+    this.socket.emit('createNote', title);
   }
 
-  update(type, id, change) {
-    if (type === 'delete') {
-      firebasedb.removeNote(id);
-    } else if (type === 'drag') {
-      firebasedb.dragNote(id, change);
-    } else if (type === 'edit') {
-      firebasedb.editNote(id, change);
-    } else if (type === 'editor') {
-      firebasedb.changeEditor(id, change);
-    }
+  deleteNote(id) {
+    // firebasedb.removeNote(id);
+    this.socket.emit('deleteNote', id);
+  }
+
+  update(id, fields) {
+    this.socket.emit('updateNote', id, fields);
+    // firebasedb.updateNote(id, fields);
   }
 
   render() {
@@ -57,7 +68,7 @@ class App extends Component {
         </div>
         <div id="note-area">
           {this.state.notes.entrySeq().map(([id, note]) => {
-            return <Note id={id} note={note} update={(type, key, pos) => this.update(type, key, pos)} user={this.state.username} />;
+            return <Note id={id} note={note} delete={key => this.deleteNote(key)} update={(key, fields) => this.update(key, fields)} user={this.state.username} />;
           })}
         </div>
       </div>
