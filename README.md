@@ -2,6 +2,8 @@
 
 A submission for Lab 3 of CS52 at Dartmouth College.
 
+The project is hosted [here](https://dartmouth-cs52-17s.github.io/lab3-arinehouse/).
+
 ## What I Did
 I struggled, certainly, but feel good coming out of it. I started by making a single note, and then a couple of notes, that were loaded in automatically instead of by a user. Then I worked on dragging, editing, and removing, and finally added in the ability to add new notes. Once everything was set up, and once I understood how Firebase worked, it was relatively straightforward to refactor the change functions to work with Firebase. Finally, I decided to create a lock feature on a note if someone else is editing it. When hovering over the lock, the note displays who is currently editing the note (oh yeah, and all users have a randomly-generated alliterative adjective-animal combination, and for that a major thank you is owed to Github user [nwjohn](https://github.com/nwjohn) for her [animal-namer-api](https://github.com/nwjohn/animal-namer-api) project.)
 

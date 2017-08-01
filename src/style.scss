@@ -3,16 +3,24 @@ html {
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Patrick Hand", sans-serif;
   background: darken(white, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: url("http://localhost:8080/img/canvas.jpg");
+  //background-image: url("https://dartmouth-cs52-17s.github.io/lab3-arinehouse/img/wood.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #name-display {
   margin-top: 30px;
   text-align: center;
+  font-size: 35px;
+  color: black;
+  font-family: 'Sriracha', cursive;
+  font-weight: 100;
 }
 
 #note-area {
@@ -48,13 +56,13 @@ body {
 }
 
 .container {
-  background: #ffe926;
+  background: #f1ecae;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-width: 200px;
   min-height: 200px;
-  box-shadow: 5px 5px 10px #858585;
+  box-shadow: 5px 5px 10px #3e3e3e;
 }
 
 .header {
